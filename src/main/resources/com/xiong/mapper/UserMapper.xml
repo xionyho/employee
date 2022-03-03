@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiong.mapper.UserMapper">
+    <select id="selectAll" resultType="com.xiong.pojo.User">
+        select * from xyh_user
+    </select>
+
+    <select id="selectByName" parameterType="String" resultType="com.xiong.pojo.User">
+        select * from xyh_user where name=#{name}
+    </select>
+
+    <insert id="insertUser" parameterType="com.xiong.pojo.User">
+        insert into xyh_user(name,password) values(#{name},#{password})
+    </insert>
+
+    <delete id="deleteUser" parameterType="com.xiong.pojo.User">
+        delete from xyh_user where name=#{name}
+    </delete>
+
+    <update id="updatePassWord" parameterType="com.xiong.pojo.User">
+        update xyh_user set password=#{password} where name=#{name}
+    </update>
+</mapper>
