@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author admin
@@ -25,4 +26,8 @@ public interface UserMapper {
     public Boolean updatePassWord(@Param("name") String name,@Param("password") String password);
 
     public List<User> selectAll();
+
+    Set<String> getRoles(String username);
+
+    Set<String> getPermissions(String username);
 }

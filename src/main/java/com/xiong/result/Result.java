@@ -15,41 +15,47 @@ public class Result {
     private Object data;
     private String msg;
 
+    public Result(){ }
+
+    public Result(int code,String msg,Object data){
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
     public static Result error(int code, String msg) {
-        Result resultBean = new Result();
-        resultBean.setCode(code);
-        resultBean.setMsg(msg);
-        return resultBean;
+
+        return new Result(code,msg,null);
     }
+
     public static Result error(String msg) {
-        Result resultBean = new Result();
-        resultBean.setMsg(msg);
-        return resultBean;
+
+        return new Result(0,msg,null);
     }
+
     public static Result success(int code, String msg, Object data) {
-        Result resultBean = new Result();
-        resultBean.setMsg(msg);
-        resultBean.setCode(code);
-        resultBean.setData(data);
-        return resultBean;
+
+        return new Result(code,msg,data);
     }
+
     public static Result success(int code, Object data) {
-        Result resultBean = new Result();
-        resultBean.setCode(code);
-        resultBean.setData(data);
-        return resultBean;
+
+        return new Result(code,null,data);
     }
+
     public static Result success(Object data) {
-        Result resultBean = new Result();
-        resultBean.setData(data);
-        return resultBean;
+
+        return new Result(0,null,data);
     }
 
     public static Result success(int code, String msg) {
-        Result resultBean = new Result();
-        resultBean.setCode(code);
-        resultBean.setMsg(msg);
-        return resultBean;
+
+        return new Result(code,msg,null);
+    }
+
+    @Override
+    public String toString(){
+        return "Result [code=" + code + ", data=" + data + ", msg=" + msg + "]";
     }
 
 }

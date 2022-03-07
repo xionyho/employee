@@ -24,4 +24,6 @@ public interface UserService {
     public Boolean updatePassWord(User user);
 
     public List<User> selectAll();
+
+
 }

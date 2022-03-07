@@ -3,6 +3,9 @@ package com.xiong.controller;
 import com.xiong.result.Result;
 import com.xiong.pojo.User;
 import com.xiong.service.impl.UserServiceImpl;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +25,32 @@ import java.util.List;
  * @createTime 2022年03月02日 17:05:00
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public String login(User user, HttpServletRequest request){
+        System.out.println("name:"+user.getName()+",password:"+user.getPassword());
+        // 根据用户名和密码创建 Token
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
+        // 获取 subject 认证主体
+        System.out.println("登录token："+token);
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            // 开始认证，这一步会跳到我们自定义的 Realm 中
+            subject.login(token);
+            request.getSession().setAttribute("user", user);
+            return "redirect:/main.html";
+        //    return Result.success(200,"成功",user);
+        }catch(Exception e){
+            e.printStackTrace();
+            request.setAttribute("error", "用户名或密码错误！");
+            return "redirect:/error.html";
+        //    return Result.error("失败");
+        }
+    }
 
     @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
     @ResponseBody
