@@ -28,7 +28,7 @@
 
     <select id="getPermissions" parameterType="String" resultType="String">
         select
-            p.permissionname
+            p.perms
         from t_role r left join t_user u on r.id = u.role_id
                       left join t_permission p on r.id = p.role_id
         where name =#{name}

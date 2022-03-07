@@ -1,7 +1,9 @@
 package com.xiong.configs;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -46,17 +48,24 @@ public class ShiroConfig {
         filterMap.put("/index.html", "anon");
         filterMap.put("/login.html", "anon");
         filterMap.put("/user/login","anon");
-        // “/user/student” 开头的用户需要角色认证，是“administrator”才允许
+        // “/user/**” 开头的用户需要角色认证，是“administrator”才允许
         filterMap.put("/user/**", "roles[administrator]");
         // “/user/teacher” 开头的用户需要权限认证，是“user:create”才允许
+//        filterMap.put("/employee/*", "roles[employee]");
 
-        filterMap.put("/employee/*", "roles[employee]");
-      //  filterMap.put("/employee/add", "perms[\"business:add\"]");
         filterMap.put("/employee/delete","perms[business:delete]");
         filterMap.put("/employee/add","perms[business:add]");
-        filterMap.put("/**", "authc");
+        filterMap.put("/employee/insert","perms[business:insert]");
+
         filterMap.put("/logout","logout");
+        filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         return shiroFilter;
   }
+
+    //整合ShiroDialect:用来整合shiro thymeleaf
+    @Bean
+    public ShiroDialect getshiroDialect(){
+        return new ShiroDialect();
+    }
 }
