@@ -1,7 +1,7 @@
 package com.xiong.controller;
 
 import com.xiong.result.Result;
-import com.xiong.service.impl.UserServiceImpl;
+import com.xiong.service.impl.WorkerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TestController {
 
     @Autowired
-    private UserServiceImpl userService;
+    private WorkerServiceImpl userService;
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.GET)

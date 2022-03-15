@@ -47,18 +47,18 @@ public class ShiroConfig {
         Map<String,String> filterMap = new LinkedHashMap<>();
         filterMap.put("/index.html", "anon");
         filterMap.put("/login.html", "anon");
-        filterMap.put("/user/login","anon");
+//        filterMap.put("/worker/login","anon");
         // “/user/**” 开头的用户需要角色认证，是“administrator”才允许
-        filterMap.put("/user/**", "roles[administrator]");
+//        filterMap.put("/admin/**", "roles[administrator]");
         // “/user/teacher” 开头的用户需要权限认证，是“user:create”才允许
 //        filterMap.put("/employee/*", "roles[employee]");
 
-        filterMap.put("/employee/delete","perms[business:delete]");
-        filterMap.put("/employee/add","perms[business:add]");
-        filterMap.put("/employee/insert","perms[business:insert]");
+//        filterMap.put("//delete","perms[business:delete]");
+//        filterMap.put("/employee/add","perms[business:add]");
+ //       filterMap.put("/employee/insert","perms[business:insert]");
 
         filterMap.put("/logout","logout");
-        filterMap.put("/**", "authc");
+//        filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         return shiroFilter;
   }

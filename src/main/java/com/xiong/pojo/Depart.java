@@ -1,6 +1,5 @@
 package com.xiong.pojo;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,12 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class Depart {
 
-  //角色id
-  private Long id;
-  //角色名
-  private String rolename;
-
+  //部门id
+  private Integer id;
+  //部门名称
+  private String departname;
+  //部门领导人
+  private String leader;
 
 }

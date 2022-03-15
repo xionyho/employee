@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiong.mapper.WorkerInfoMapper">
+    <resultMap id="WorkerInfoMap" type="com.xiong.pojo.Worker">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="department" property="department"></result>
+        <result column="post" property="post"></result>
+        <result column="remarks" property="remarks"></result>
+        <result column="role_id" property="roleId"></result>
+        <result column="status" property="status"></result>
+        <association property="workerInfo" javaType="com.xiong.pojo.WorkerInfo">
+            <id column="id" property="id"></id>
+            <result column="phone" property="phone"></result>
+            <result column="email" property="email"></result>
+            <result column="entry_time" property="entryTime"></result>
+            <result column="age" property="age"></result>
+            <result column="sex" property="sex"></result>
+            <result column="work_id" property="workId"></result>
+        </association>
+    </resultMap>
+
+    <select id="showInfo" parameterType="Integer" resultMap="WorkerInfoMap">
+        select w.username,w.department,w.post,w.remarks,w.status,
+        wi.phone,wi.email,wi.entry_time,wi.age, wi.sex
+        from worker w
+        left join worker_info wi on w.id=wi.work_id
+        where wi.work_id=#{id}
+    </select>
+
+    <update id="updateInfo" parameterType="com.xiong.pojo.WorkerInfo">
+        update worker_info set phone=#{workerInfo.phone},email=#{workerInfo.email},age=#{workerInfo.age},sex=#{workerInfo.sex}
+        where work_id =#{workerInfo.workId}
+    </update>
+
+    <insert id="insertInfo" parameterType="com.xiong.pojo.WorkerInfo">
+        insert into worker_info(work_id) values(#{id})
+    </insert>
+</mapper>
