@@ -2,6 +2,7 @@ package com.xiong.mapper;
 
 import com.xiong.pojo.Depart;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,18 @@ import java.util.List;
 @Mapper
 public interface DepartMapper {
     List<Depart> selectAll();
+
+    List<Depart> selectByName(String departname);
+
+    Boolean insertDepart(@Param("depart") Depart depart);
+
+    Boolean updateDepart(@Param("depart") Depart depart);
+
+    Boolean updateDepartLeader(@Param("depart") Depart depart);
+
+    List<Depart> selectById(Integer id);
+
+    Depart selectName(String departname);
+
+    Boolean updateStatus(Integer id,Integer status);
 }

@@ -3,6 +3,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiong.mapper.DepartMapper">
     <select id="selectAll" resultType="com.xiong.pojo.Depart">
-        select departname,leader from depart
+        select departname,leader,status from depart
     </select>
+
+    <select id="selectByName" parameterType="String" resultType="com.xiong.pojo.Depart">
+        select * from depart where departname like concat('%',#{departname},'%')
+    </select>
+
+    <select id="selectName" parameterType="String" resultType="com.xiong.pojo.Depart">
+        select * from depart where departname=#{departname}
+    </select>
+
+    <select id="selectById" parameterType="Integer" resultType="com.xiong.pojo.Depart">
+        select * from depart where id=#{id}
+    </select>
+
+    <insert id="insertDepart" parameterType="com.xiong.pojo.Depart">
+        insert into depart(departname,leader,status) values(#{depart.departname},#{depart.leader},#{depart.status})
+    </insert>
+
+    <update id="updateDepart" parameterType="com.xiong.pojo.Depart">
+        update depart set departname=#{depart.departname},leader=#{depart.leader} where id=#{depart.id}
+    </update>
+
+    <update id="updateDepartLeader" parameterType="com.xiong.pojo.Depart">
+        update depart set leader=#{depart.leader} where id=#{depart.id}
+    </update>
+
+    <update id="updateStatus" parameterType="com.xiong.pojo.Depart">
+        update depart set status=#{status} where id=#{id}
+    </update>
 </mapper>

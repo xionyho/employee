@@ -15,5 +15,6 @@ public class Depart {
   private String departname;
   //部门领导人
   private String leader;
-
+  //启用状态
+  private Integer status;
 }

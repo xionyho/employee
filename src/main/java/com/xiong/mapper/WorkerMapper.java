@@ -19,6 +19,7 @@ import java.util.Set;
 public interface WorkerMapper {
 
     public Worker selectByName(String username);
+
     public Boolean insertUser(@Param("worker") Worker worker);
 
     public Boolean deleteUser(@Param("username") String username);

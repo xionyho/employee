@@ -15,4 +15,18 @@ import java.util.List;
 @Service
 public interface DepartService {
     public List<Depart> selectAll();
+
+    public List<Depart> selectByName(String departname);
+
+    public Depart selectName(String departname);
+
+    public Boolean insertDepart(Depart depart);
+
+    public Boolean updateDepart(Depart depart);
+
+    Boolean updateDepartLeader(Depart depart);
+
+    public List<Depart> selectById(Integer id);
+
+    Boolean updateStatus(Integer id,Integer status);
 }

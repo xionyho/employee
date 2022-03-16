@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiong.mapper.PostMapper">
+    <select id="selectAll" resultType="com.xiong.pojo.Post">
+        select * from post
+    </select>
+
+    <select id="selectByDepName" parameterType="String" resultType="com.xiong.pojo.Post">
+        select * from post where departname like concat('%',#{departname},'%')
+    </select>
+
+    <select id="selectByPostName" parameterType="String" resultType="com.xiong.pojo.Post">
+        select * from post where postname like concat('%',#{postname},'%')
+    </select>
+
+    <select id="selectByName" parameterType="String" resultType="com.xiong.pojo.Post">
+        select * from post where postname=#{postname}
+    </select>
+
+    <insert id="insertPost" parameterType="com.xiong.pojo.Post">
+        insert into post(postname,departname) values(#{post.postname},#{post.departname})
+    </insert>
+</mapper>
