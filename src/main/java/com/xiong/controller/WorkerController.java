@@ -67,10 +67,10 @@ public class WorkerController {
     //查看指定员工
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     @ResponseBody
-    public Result selectByName(@RequestParam("username") String username) {
+    public Result selectByName(@RequestParam("name") String name) {
         Worker worker = new Worker();
         try {
-            worker = workerService.selectByName(username);
+            worker = workerService.selectByName(name);
         } catch (Exception e) {
             return Result.error(500, "返回失败" + e.getLocalizedMessage());
         }
@@ -92,7 +92,7 @@ public class WorkerController {
                  //插入员工信息
                  workerService.insertUser(worker);
                  //获取新插入的员工id
-                 Integer id = workerService.selectById(worker.getUsername());
+                 Integer id = workerService.selectId(worker.getUsername());
                  //将新员工的id插入到附属表中
                  System.out.println(id);
                  workerInfoService.insertInfo(id);

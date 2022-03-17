@@ -6,15 +6,16 @@
     </select>
 
     <select id="selectByName" parameterType="String" resultMap="WorkerMap">
-        select * from worker where username=#{username}
+        select * from worker where name=#{name}
     </select>
 
-    <select id="selectById" parameterType="String" resultType="Integer">
+    <select id="selectId" parameterType="String" resultType="Integer">
         select id from worker where username=#{username}
     </select>
 
     <resultMap id="WorkerMap" type="com.xiong.pojo.Worker">
         <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
         <result column="username" property="username"></result>
         <result column="password" property="password"></result>
         <result column="department" property="department"></result>

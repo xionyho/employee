@@ -18,7 +18,7 @@ import java.util.Set;
 @Mapper
 public interface WorkerMapper {
 
-    public Worker selectByName(String username);
+    public Worker selectByName(String name);
 
     public Boolean insertUser(@Param("worker") Worker worker);
 
@@ -32,5 +32,5 @@ public interface WorkerMapper {
 
     public Set<String> getPermissions(String username);
 
-    public Integer selectById(@Param("username") String username);
+    public Integer selectId(@Param("username") String username);
 }

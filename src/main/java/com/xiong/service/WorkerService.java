@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public interface WorkerService {
 
-    public Worker selectByName(String username);
+    public Worker selectByName(String name);
 
     public Boolean insertUser(Worker worker);
 
@@ -25,7 +25,7 @@ public interface WorkerService {
 
     public List<Worker> selectAll();
 
-    public Integer selectById(String username);
+    public Integer selectId(String username);
 
 
 }

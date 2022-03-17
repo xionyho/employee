@@ -24,8 +24,8 @@ public class WorkerServiceImpl implements WorkerService {
     private WorkerMapper workerMapper;
 
     @Override
-    public Worker selectByName(String username) {
-        return workerMapper.selectByName(username);
+    public Worker selectByName(String name) {
+        return workerMapper.selectByName(name);
     }
 
 
@@ -51,7 +51,7 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public Integer selectById(String username) {
-        return workerMapper.selectById(username);
+    public Integer selectId(String username) {
+        return workerMapper.selectId(username);
     }
 }

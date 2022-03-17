@@ -80,7 +80,13 @@ public class PostController {
         }
     }
 
-
+    /**
+     * @title insertPost
+     * @description 新增岗位
+     * @author xiongyuhao
+     * @updateTime 2022/3/17 9:13
+     * @throws
+     */
     @ResponseBody
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public Result insertPost(@RequestBody Post post) {

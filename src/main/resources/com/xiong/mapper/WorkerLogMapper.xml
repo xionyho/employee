@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiong.mapper.WorkerLogMapper">
+
+    <resultMap id="WorkerLogMap" type="com.xiong.pojo.Worker">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <association property="workerLog" javaType="com.xiong.pojo.WorkerLog">
+            <id column="id" property="id"></id>
+            <result column="time" property="time"></result>
+            <result column="start_time" property="startTime"></result>
+            <result column="end_time" property="endTime"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectLog" resultMap="WorkerLogMap">
+        select * from work_log where id=#{id} and time=#{date}
+    </select>
+
+    <insert id="insertLog" parameterType="com.xiong.pojo.WorkerLog">
+        insert into log(work_id,time,start_time) values(#{id},#{date},#{startDate})
+    </insert>
+
+    <update id="updateLog" parameterType="com.xiong.pojo.WorkerLog">
+        update log set end_time=#{startDate} where work_id=#{id} and time=#{date}
+    </update>
+</mapper>

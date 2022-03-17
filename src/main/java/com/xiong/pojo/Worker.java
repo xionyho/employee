@@ -11,6 +11,8 @@ public class Worker {
   //员工的id
   private Integer id;
   //员工姓名
+  private String name;
+  //员工登录号
   private String username;
   //员工密码
   private String password;
@@ -26,5 +28,6 @@ public class Worker {
   private Integer status;
   //员工信息
   private WorkerInfo workerInfo;
-
+  //员工打卡信息
+  private WorkerLog workerLog;
 }

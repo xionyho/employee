@@ -4,6 +4,7 @@
 <mapper namespace="com.xiong.mapper.WorkerInfoMapper">
     <resultMap id="WorkerInfoMap" type="com.xiong.pojo.Worker">
         <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
         <result column="username" property="username"></result>
         <result column="password" property="password"></result>
         <result column="department" property="department"></result>
@@ -23,7 +24,7 @@
     </resultMap>
 
     <select id="showInfo" parameterType="Integer" resultMap="WorkerInfoMap">
-        select w.username,w.department,w.post,w.remarks,w.status,
+        select w.name,w.username,w.department,w.post,w.remarks,w.status,
         wi.phone,wi.email,wi.entry_time,wi.age, wi.sex
         from worker w
         left join worker_info wi on w.id=wi.work_id
