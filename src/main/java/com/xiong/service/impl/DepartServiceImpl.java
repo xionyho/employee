@@ -60,4 +60,24 @@ public class DepartServiceImpl implements DepartService {
     public Boolean updateStatus(Integer id,Integer status) {
         return departMapper.updateStatus(id,status);
     }
+
+    @Override
+    public Boolean deletePost(Integer id) {
+        return departMapper.deletePost(id);
+    }
+
+    @Override
+    public Depart selectDepartById(Integer id) {
+        return departMapper.selectDepartById(id);
+    }
+
+    @Override
+    public List<Depart> selectAllStatus() {
+        return departMapper.selectAllStatus();
+    }
+
+    @Override
+    public Boolean updateDepartName(Depart depart) {
+        return departMapper.updateDepartName(depart);
+    }
 }

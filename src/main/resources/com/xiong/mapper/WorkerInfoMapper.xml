@@ -21,22 +21,34 @@
             <result column="sex" property="sex"></result>
             <result column="work_id" property="workId"></result>
         </association>
+        <association property="role" javaType="com.xiong.pojo.Role">
+            <id column="id" property="id"></id>
+            <id column="rolename" property="rolename"></id>
+        </association>
     </resultMap>
 
     <select id="showInfo" parameterType="Integer" resultMap="WorkerInfoMap">
-        select w.name,w.username,w.department,w.post,w.remarks,w.status,
-        wi.phone,wi.email,wi.entry_time,wi.age, wi.sex
+        select w.id,w.name,w.username,w.department,w.post,w.remarks,w.status,w.role_id,
+        wi.id,wi.phone,wi.email,wi.entry_time,wi.age, wi.sex,wi.work_id,
+        r.id ,r.rolename
         from worker w
         left join worker_info wi on w.id=wi.work_id
-        where wi.work_id=#{id}
+        left join role r on w.role_id = r.id
+        where w.id=#{id}
     </select>
 
     <update id="updateInfo" parameterType="com.xiong.pojo.WorkerInfo">
-        update worker_info set phone=#{workerInfo.phone},email=#{workerInfo.email},age=#{workerInfo.age},sex=#{workerInfo.sex}
+        update worker_info set phone=#{workerInfo.phone},email=#{workerInfo.email},age=#{workerInfo.age},sex=#{workerInfo.sex},entry_time=#{workerInfo.entryTime}
         where work_id =#{workerInfo.workId}
+    </update>
+    <update id="updateWorker" parameterType="com.xiong.pojo.Worker">
+        update worker set name=#{worker.name},username=#{worker.username},department=#{worker.department},
+        post=#{worker.post},remarks=#{worker.remarks},role_id=#{worker.role.rolename},status=#{worker.status}
+        where id=#{worker.id}
     </update>
 
     <insert id="insertInfo" parameterType="com.xiong.pojo.WorkerInfo">
-        insert into worker_info(work_id) values(#{id})
+        insert into worker_info(work_id,phone,email,age,sex,entry_time)
+        values(#{id},#{workerInfo.phone},#{workerInfo.email},#{workerInfo.age},#{workerInfo.sex},#{workerInfo.entryTime})
     </insert>
 </mapper>

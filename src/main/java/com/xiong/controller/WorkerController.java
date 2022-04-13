@@ -1,8 +1,10 @@
 package com.xiong.controller;
 
+import com.xiong.pojo.Depart;
+import com.xiong.pojo.Page;
 import com.xiong.pojo.Worker;
+import com.xiong.result.PageResult;
 import com.xiong.result.Result;
-import com.xiong.pojo.User;
 import com.xiong.service.impl.WorkerInfoServiceImpl;
 import com.xiong.service.impl.WorkerServiceImpl;
 import org.apache.shiro.SecurityUtils;
@@ -29,8 +31,9 @@ public class WorkerController {
 
     //员工登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(Worker worker, HttpServletRequest request){
-        System.out.println("name:"+worker.getUsername()+",password:"+worker.getPassword());
+    @ResponseBody
+    public Result login(@RequestBody Worker worker,HttpServletRequest request){
+        System.out.println("username:"+worker.getUsername()+",password:"+worker.getPassword());
         // 根据用户名和密码创建 Token
         UsernamePasswordToken token = new UsernamePasswordToken(worker.getUsername(), worker.getPassword());
         // 获取 subject 认证主体
@@ -39,45 +42,65 @@ public class WorkerController {
         try{
             // 开始认证，这一步会跳到我们自定义的 Realm 中
             subject.login(token);
-            request.getSession().setAttribute("worker", worker);
-            return "redirect:/main.html";
-        //    return Result.success(200,"成功",user);
+
+           // return "redirect:/main.html";
+
+            return Result.success(200,"登录成功",request.getSession().getAttribute("worker"));
         }catch(Exception e){
             e.printStackTrace();
-            request.setAttribute("error", "用户名或密码错误！");
-            return "redirect:/error.html";
-        //    return Result.error("失败");
+        //    request.setAttribute("error", "用户名或密码错误！");
+          //  return "redirect:/error.html";
+            return Result.error(400,"用户名或密码错误！");
         }
     }
 
     //查看所有员工
     @RequestMapping(value = "/showAll", method = RequestMethod.GET)
     @ResponseBody
-    public Result selectAll() {
-        List<Worker> userList = new ArrayList<>();
+    public Result selectAll(@RequestParam(defaultValue = "1") Integer pageNum,@RequestParam(defaultValue = "10") Integer pageSize) {
         try {
-            userList = workerService.selectAll();
+            PageResult page = workerService.selectAll(new Page(pageNum, pageSize));
+            return Result.success(200, "成功返回", page);
+        } catch (Exception e) {
+            return Result.error(400, "返回失败" + e.getLocalizedMessage());
+        }
+    }
 
+    //查看所有在职员工
+    @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
+    @ResponseBody
+    public Result selectAllStatus() {
+        List<Worker> workerList = new ArrayList<>();
+        try {
+            workerList = workerService.selectAllStatus();
         } catch (Exception e) {
             return Result.error(500, "返回失败" + e.getLocalizedMessage());
         }
-        return Result.success(200, "成功返回", userList);
+        return Result.success(200, "成功返回", workerList);
+    }
+
+    //测试分页
+    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    @ResponseBody
+    public Result page(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+        PageResult page = workerService.findPage(new Page(pageNum, pageSize));
+        return Result.success(200,"成功",page);
     }
 
     //查看指定员工
     @RequestMapping(value = "/select", method = RequestMethod.GET)
     @ResponseBody
     public Result selectByName(@RequestParam("name") String name) {
-        Worker worker = new Worker();
+        List<Worker> worker = new ArrayList<>();
         try {
             worker = workerService.selectByName(name);
         } catch (Exception e) {
-            return Result.error(500, "返回失败" + e.getLocalizedMessage());
+            return Result.error(400, "返回失败" + e.getLocalizedMessage());
         }
         if (worker != null) {
             return Result.success(200, "返回成功", worker);
         } else {
-            return Result.error(500, "查不到改该数据");
+            return Result.error(400, "查不到改该数据");
         }
     }
 
@@ -86,7 +109,9 @@ public class WorkerController {
     @ResponseBody
     public Result insertUser(@RequestBody Worker worker) {
         if (worker.getUsername() != "" && worker.getPassword() != "") {
-            Worker worker1 = workerService.selectByName(worker.getUsername());
+            worker.setPassword("123456");
+            //worker.setStatus(1);
+            Worker worker1 = workerService.selectByUserName(worker.getUsername());
             if (worker1 == null) {
              try {
                  //插入员工信息
@@ -95,28 +120,28 @@ public class WorkerController {
                  Integer id = workerService.selectId(worker.getUsername());
                  //将新员工的id插入到附属表中
                  System.out.println(id);
-                 workerInfoService.insertInfo(id);
+                 workerInfoService.insertInfo(id,worker.getWorkerInfo());
                  return Result.success(200, "插入成功", worker);
              }catch (Exception e){
                  e.printStackTrace();
              }
             } else {
-                return Result.error(500, "该用户已被注册！");
+                return Result.error(400, "该用户已被注册！");
             }
         }
-        return Result.error(500, "不允许插入空值！");
+        return Result.error(400, "不允许插入空值！");
     }
 
     //删除员工
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
-    public Result deleteUser(@RequestParam("username") String username) {
+    public Result deleteUser(@RequestParam("id") Integer id) {
         //判断输入值是否为空
-        if (!"".equals(username) && username != null) {
-            workerService.deleteUser(username);
+        if (!"".equals(id) && id != null) {
+            workerService.deleteUser(id);
             return Result.success(200, "删除成功");
         }else {
-            return Result.error(500,"删除失败,输入值为空！");
+            return Result.error(400,"删除失败");
         }
     }
 
@@ -128,15 +153,15 @@ public class WorkerController {
         if (!"".equals(worker.getUsername()) && !"".equals(worker.getPassword()) &&
                 worker.getUsername() != null && worker.getPassword() != null) {
             //查询是否存在这条数据
-            Worker beforeuser = workerService.selectByName(worker.getUsername());
+            Worker beforeuser = workerService.selectByUserName(worker.getUsername());
             if (beforeuser != null) {
                 workerService.updatePassWord(worker);
                 return Result.success(200,"修改成功",worker);
             } else {
-                return Result.error(500,"修改失败,不存在该数据");
+                return Result.error(400,"修改失败,不存在该数据");
             }
         }
-        return Result.error(500,"修改失败，输入的参数为空");
+        return Result.error(400,"修改失败，输入的参数为空");
     }
 }
 

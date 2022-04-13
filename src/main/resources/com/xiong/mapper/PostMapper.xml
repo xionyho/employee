@@ -2,8 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiong.mapper.PostMapper">
+
     <select id="selectAll" resultType="com.xiong.pojo.Post">
-        select * from post
+        select p.id,p.postname,d.departname from post p join depart d on p.departname = d.id
+    </select>
+
+    <select id="selectById" resultType="com.xiong.pojo.Post">
+        select p.id,p.postname,d.departname from post p join depart d on p.departname = d.id where p.id=#{id}
     </select>
 
     <select id="selectByDepName" parameterType="String" resultType="com.xiong.pojo.Post">
@@ -18,7 +23,27 @@
         select * from post where postname=#{postname}
     </select>
 
+    <select id="selectName"  resultType="com.xiong.pojo.Post">
+        select * from post where postname=#{postname} and departname=#{departname}
+    </select>
+
+    <select id="selectDepPostName" resultType="com.xiong.pojo.Post">
+        select * from post where postname like concat('%',#{postname},'%') and departname like concat('%',#{departname},'%')
+    </select>
+
     <insert id="insertPost" parameterType="com.xiong.pojo.Post">
         insert into post(postname,departname) values(#{post.postname},#{post.departname})
     </insert>
+
+    <update id="updatePost" parameterType="com.xiong.pojo.Post">
+        update post set postname=#{post.postname},departname=#{post.departname} where id=#{post.id}
+    </update>
+
+    <update id="updatePostName" parameterType="com.xiong.pojo.Post">
+        update post set postname=#{post.postname} where id=#{post.id}
+    </update>
+
+    <delete id="deletePost" parameterType="com.xiong.pojo.Post">
+        delete from post where id=#{id}
+    </delete>
 </mapper>

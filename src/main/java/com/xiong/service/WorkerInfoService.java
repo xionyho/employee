@@ -16,8 +16,12 @@ import java.util.List;
 
 @Service
 public interface WorkerInfoService {
-    public List<WorkerInfo> showInfo(Integer id);
+
+    public Worker showInfo(Integer id);
+
     Boolean updateInfo(WorkerInfo workerInfo);
 
-    Boolean insertInfo(Integer id);
+    Boolean insertInfo(Integer id,WorkerInfo workerInfo);
+
+    Boolean updateWorker(Worker worker);
 }

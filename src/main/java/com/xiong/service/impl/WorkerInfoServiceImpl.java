@@ -2,6 +2,7 @@ package com.xiong.service.impl;
 
 import com.xiong.mapper.WorkerInfoMapper;
 import com.xiong.mapper.WorkerMapper;
+import com.xiong.pojo.Worker;
 import com.xiong.pojo.WorkerInfo;
 import com.xiong.service.WorkerInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class WorkerInfoServiceImpl implements WorkerInfoService {
     private WorkerInfoMapper workerInfoMapper;
 
     @Override
-    public List<WorkerInfo> showInfo(Integer id) {
+    public Worker showInfo(Integer id) {
         return workerInfoMapper.showInfo(id);
     }
 
@@ -33,7 +34,13 @@ public class WorkerInfoServiceImpl implements WorkerInfoService {
         return workerInfoMapper.updateInfo(workerInfo);
     }
 
-    public Boolean insertInfo(Integer id) {
-        return workerInfoMapper.insertInfo(id);
+    @Override
+    public Boolean insertInfo(Integer id,WorkerInfo workerInfo) {
+        return workerInfoMapper.insertInfo(id, workerInfo);
+    }
+
+    @Override
+    public Boolean updateWorker(Worker worker) {
+        return workerInfoMapper.updateWorker(worker);
     }
 }

@@ -15,5 +15,4 @@ public class Post {
   private String postname;
   //所属部门
   private String departname;
-
 }

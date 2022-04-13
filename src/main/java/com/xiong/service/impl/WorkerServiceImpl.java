@@ -1,9 +1,13 @@
 package com.xiong.service.impl;
 
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xiong.mapper.WorkerMapper;
+import com.xiong.pojo.Page;
 import com.xiong.pojo.Worker;
+import com.xiong.result.PageResult;
 import com.xiong.service.WorkerService;
+import com.xiong.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +28,13 @@ public class WorkerServiceImpl implements WorkerService {
     private WorkerMapper workerMapper;
 
     @Override
-    public Worker selectByName(String name) {
+    public List<Worker> selectByName(String name) {
         return workerMapper.selectByName(name);
+    }
+
+    @Override
+    public Worker selectByUserName(String username) {
+        return workerMapper.selectByUserName(username);
     }
 
 
@@ -35,8 +44,8 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public Boolean deleteUser(String username) {
-        return workerMapper.deleteUser(username);
+    public Boolean deleteUser(Integer id) {
+        return workerMapper.deleteUser(id);
     }
 
 
@@ -46,12 +55,40 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public List<Worker> selectAll() {
-        return workerMapper.selectAll();
+    public PageResult selectAll(Page page) {
+        List<Worker> workerList = workerMapper.selectAll();
+        return PageUtils.getPageResult(getPageInfo(page));
+    }
+
+    @Override
+    public List<Worker> selectAllStatus() {
+        return workerMapper.selectAllStatus();
     }
 
     @Override
     public Integer selectId(String username) {
         return workerMapper.selectId(username);
     }
+
+    @Override
+    public PageResult findPage(Page page) {
+        return null;
+    }
+
+    /**
+     * 调用分页插件完成分页
+     * @param
+     * @return
+     */
+    private PageInfo<Worker> getPageInfo(Page page) {
+        int pageNum = page.getPageNum();
+        int pageSize = page.getPageSize();
+        System.out.println(pageNum+":::"+pageSize);
+        PageHelper.startPage(pageNum, pageSize);
+        List<Worker> sysMenus = workerMapper.selectAll();
+       // System.out.println(sysMenus);
+      //  System.out.println(workerList);
+        return new PageInfo<Worker>(sysMenus);
+    }
+
 }

@@ -22,5 +22,17 @@ public interface PostService {
 
     Post selectByName(String postname);
 
+    Post selectName(String postname,String departname);
+
     Boolean insertPost(Post post);
+
+    List<Post> selectDepPostName(String departname, String postname);
+
+    Boolean deletePost(Integer id);
+
+    Post selectById(Integer id);
+
+    Boolean updatePost(Post post);
+
+    Boolean updatePostName(Post post);
 }

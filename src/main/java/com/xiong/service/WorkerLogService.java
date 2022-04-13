@@ -1,8 +1,12 @@
 package com.xiong.service;
 
+import com.xiong.pojo.Page;
 import com.xiong.pojo.Worker;
 import com.xiong.pojo.WorkerLog;
+import com.xiong.result.PageResult;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author xiongyuhao
@@ -19,4 +23,10 @@ public interface WorkerLogService {
     Boolean insertLog(Integer id, String date, String startDate);
 
     Boolean updateLog(Integer id, String date, String startDate);
+
+    PageResult selectAll(Page page);
+
+    Worker selectWorkerLog(Integer id);
+
+    List<Worker> selectByName(String name);
 }

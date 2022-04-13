@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xiong.mapper.WorkerMapper">
-    <select id="selectAll" resultType="com.xiong.pojo.Worker">
+    <select id="selectAll" resultMap="WorkerMap">
+        select * from worker
+    </select>
+
+    <select id="selectAllStatus" resultType="com.xiong.pojo.Worker">
+        select id,name from worker where status != 2
+    </select>
+
+    <select id="selectPage" resultType="com.xiong.pojo.Worker">
         select * from worker
     </select>
 
     <select id="selectByName" parameterType="String" resultMap="WorkerMap">
-        select * from worker where name=#{name}
+        select * from worker where name like concat('%',#{name},'%')
+    </select>
+
+    <select id="selectByUserName" parameterType="String" resultMap="WorkerMap">
+        select * from worker where username=#{username}
     </select>
 
     <select id="selectId" parameterType="String" resultType="Integer">
@@ -43,12 +55,12 @@
     </select>
 
     <insert id="insertUser" parameterType="com.xiong.pojo.Worker">
-        insert into worker(username,password,department,post,remarks,role_id,status)
-        values(#{worker.username},#{worker.password},#{worker.department},#{worker.post},#{worker.remarks},#{worker.roleId},#{worker.status})
+        insert into worker(name,username,password,department,post,remarks,role_id,status)
+        values(#{worker.name},#{worker.username},#{worker.password},#{worker.department},#{worker.post},#{worker.remarks},#{worker.role.rolename},#{worker.status})
     </insert>
 
     <delete id="deleteUser" parameterType="com.xiong.pojo.Worker">
-        delete from worker where username=#{username}
+        delete from worker where id=#{id}
     </delete>
 
     <update id="updatePassWord" parameterType="com.xiong.pojo.Worker">

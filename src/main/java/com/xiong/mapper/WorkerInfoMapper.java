@@ -1,8 +1,10 @@
 package com.xiong.mapper;
 
+import com.xiong.pojo.Worker;
 import com.xiong.pojo.WorkerInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -15,10 +17,13 @@ import java.util.List;
  */
 
 @Mapper
+@Repository
 public interface WorkerInfoMapper {
-    List<WorkerInfo> showInfo(Integer id);
+    Worker showInfo(Integer id);
 
     Boolean updateInfo(@Param("workerInfo") WorkerInfo workerInfo);
 
-    Boolean insertInfo(Integer id);
+    Boolean insertInfo(Integer id,@Param("workerInfo") WorkerInfo workerInfo);
+
+    Boolean updateWorker(@Param("worker") Worker worker);
 }

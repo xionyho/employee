@@ -47,7 +47,7 @@ public class UserRealm extends AuthorizingRealm {
         // 根据 Token 获取用户名
         String username = (String) authenticationToken.getPrincipal();
         // 根据用户名从数据库中查询该用户
-        Worker worker = workerMapper.selectByName(username);
+        Worker worker = workerMapper.selectByUserName(username);
         System.out.println(worker);
         if(worker != null) {
             // 把当前用户存到 Session 中

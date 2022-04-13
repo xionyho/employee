@@ -8,21 +8,33 @@
         <result column="name" property="name"></result>
         <association property="workerLog" javaType="com.xiong.pojo.WorkerLog">
             <id column="id" property="id"></id>
+            <result column="work_id" property="workId"></result>
             <result column="time" property="time"></result>
             <result column="start_time" property="startTime"></result>
             <result column="end_time" property="endTime"></result>
+            <result column="clock" property="clock"></result>
         </association>
     </resultMap>
 
+    <select id="selectAll" resultMap="WorkerLogMap">
+        select * from log left join worker on log.work_id = worker.id
+    </select>
+
     <select id="selectLog" resultMap="WorkerLogMap">
-        select * from work_log where id=#{id} and time=#{date}
+        select * from log where work_id=#{id} and time=#{date}
+    </select>
+    <select id="selectWorkerLog" parameterType="Integer" resultMap="WorkerLogMap">
+        select * from log left join worker on log.work_id = worker.id where log.id=#{id}
+    </select>
+    <select id="selectByName" parameterType="String" resultMap="WorkerLogMap">
+        select * from log left join worker on log.work_id = worker.id where worker.name like concat('%',#{name},'%')
     </select>
 
     <insert id="insertLog" parameterType="com.xiong.pojo.WorkerLog">
-        insert into log(work_id,time,start_time) values(#{id},#{date},#{startDate})
+        insert into log(work_id,time,start_time,clock) values(#{id},#{date},#{startDate},1)
     </insert>
 
     <update id="updateLog" parameterType="com.xiong.pojo.WorkerLog">
-        update log set end_time=#{startDate} where work_id=#{id} and time=#{date}
+        update log set end_time=#{startDate},clock=2 where work_id=#{id} and time=#{date}
     </update>
 </mapper>

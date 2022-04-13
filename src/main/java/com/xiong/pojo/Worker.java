@@ -30,4 +30,6 @@ public class Worker {
   private WorkerInfo workerInfo;
   //员工打卡信息
   private WorkerLog workerLog;
+  //角色
+  private Role role;
 }

@@ -41,7 +41,37 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post selectName(String postname,String departname) {
+        return postMapper.selectName(postname,departname);
+    }
+
+    @Override
     public Boolean insertPost(Post post) {
         return postMapper.insertPost(post);
+    }
+
+    @Override
+    public List<Post> selectDepPostName(String departname, String postname) {
+        return postMapper.selectDepPostName(departname,postname);
+    }
+
+    @Override
+    public Boolean deletePost(Integer id) {
+        return postMapper.deletePost(id);
+    }
+
+    @Override
+    public Post selectById(Integer id) {
+        return postMapper.selectById(id);
+    }
+
+    @Override
+    public Boolean updatePost(Post post) {
+        return postMapper.updatePost(post);
+    }
+
+    @Override
+    public Boolean updatePostName(Post post) {
+        return postMapper.updatePostName(post);
     }
 }

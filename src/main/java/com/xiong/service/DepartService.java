@@ -29,4 +29,12 @@ public interface DepartService {
     public List<Depart> selectById(Integer id);
 
     Boolean updateStatus(Integer id,Integer status);
+
+    Boolean deletePost(Integer id);
+
+    Depart selectDepartById(Integer id);
+
+    List<Depart> selectAllStatus();
+
+    Boolean updateDepartName(Depart depart);
 }
